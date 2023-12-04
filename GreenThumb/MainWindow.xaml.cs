@@ -1,13 +1,6 @@
-﻿using System.Text;
+﻿using GreenThumb.Database;
+using GreenThumb.Models;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace GreenThumb
 {
@@ -19,6 +12,26 @@ namespace GreenThumb
         public MainWindow()
         {
             InitializeComponent();
+            TestMethod();
+
+        }
+
+        private async Task TestMethod()
+        {
+            using (GreenDbContext context = new())
+            {
+                GreenUnitOfWork uow = new(context);
+
+                PlantModel testPlant = new() { CommonName = "Test", ScientificName = "Testus Blommus" };
+
+                await uow.PlantRepository.UpdatePlantAsync(5, testPlant);
+                await uow.CompleteAsync();
+
+
+                //InstructionModel instruction = new InstructionModel() { Description = "testa att vattna den", PlantId = testPlant.PlantId };
+
+
+            }
         }
     }
 }

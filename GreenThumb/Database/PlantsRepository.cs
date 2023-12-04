@@ -1,4 +1,5 @@
 ﻿using GreenThumb.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace GreenThumb.Database
 {
@@ -10,6 +11,17 @@ namespace GreenThumb.Database
         {
             _context = context;
         }
+
+        public async Task<List<PlantModel>> GetAllWithInstructions()
+        {
+            return await _context.Plants.Include(p => p.Instructions).ToListAsync();
+        }
+
+        public async Task<PlantModel?> GetPlantWithInstructions(int id)
+        {
+            return await _context.Plants.Include(p => p.Instructions).FirstOrDefaultAsync(p => p.PlantId == id);
+        }
+
 
         public async Task UpdatePlantAsync(int id, PlantModel newPlant)
         {
