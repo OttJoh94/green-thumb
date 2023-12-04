@@ -3,14 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GreenThumb.Database
 {
-    internal class PlantsRepository : Repository<PlantModel>
+    internal class PlantsRepository(GreenDbContext context) : Repository<PlantModel>(context)
     {
-        private readonly GreenDbContext _context;
-
-        public PlantsRepository(GreenDbContext context) : base(context)
-        {
-            _context = context;
-        }
+        private readonly GreenDbContext _context = context;
 
         public async Task<List<PlantModel>> GetAllWithInstructions()
         {
