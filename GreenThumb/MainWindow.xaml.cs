@@ -22,9 +22,9 @@ namespace GreenThumb
             {
                 GreenUnitOfWork uow = new(context);
 
-                PlantModel testPlant = new() { CommonName = "Test", ScientificName = "Testus Blommus" };
+                UserModel newUser = new() { Username = "Otto", Password = "123", GardenId = 2 };
 
-                await uow.PlantRepository.UpdatePlantAsync(5, testPlant);
+                await uow.UserRepository.AddAsync(newUser);
                 await uow.CompleteAsync();
 
 
