@@ -15,12 +15,13 @@ namespace GreenThumb.Windows
         {
             InitializeComponent();
             FillInInfo();
+            lblWelcome.Content = UserManager.SignedInUser.Username + "'s Garden";
         }
 
         public MyGardenWindow(string firstTime)
         {
             InitializeComponent();
-            MessageBox.Show("Welcome to your garden! Since it's the first time you logged in you have to save your secifiks to your garden.", "Welcom");
+            MessageBox.Show("Welcome to your garden! Since it's the first time you logged in you have to save your secifics to your garden.", "Welcom");
             btnBrowsePlants.IsEnabled = false;
             btnRemovePlant.IsEnabled = false;
         }
@@ -82,20 +83,36 @@ namespace GreenThumb.Windows
                 MessageBox.Show("Invalid inputs", "Error");
                 return;
             }
-
             GardenModel newGarden = new() { Location = location, Environment = environment, SquareMeters = squareMeters };
 
-            using (GreenDbContext context = new())
+            //Körs allra första gången om inte user har tilldelats en garden än
+            if (UserManager.SignedInUser.GardenId == null)
             {
-                GreenUnitOfWork uow = new(context);
-                await uow.GardenRepository.AddAsync(newGarden);
-                await uow.CompleteAsync();
+                using (GreenDbContext context = new())
+                {
+                    GreenUnitOfWork uow = new(context);
+                    await uow.GardenRepository.AddAsync(newGarden);
+                    await uow.CompleteAsync();
 
-                await uow.UserRepository.UpdateGardenIdOnUser(UserManager.SignedInUser!, newGarden.GardenId);
-                await uow.CompleteAsync();
+                    await uow.UserRepository.UpdateGardenIdOnUser(UserManager.SignedInUser!, newGarden.GardenId);
+                    await uow.CompleteAsync();
 
+                    //Utan den här får man inte rätt GardenId om man inte loggar ut och in igen.
+                    UserManager.SignedInUser.GardenId = newGarden.GardenId;
+                }
             }
+            else
+            {
+                int gardenId = UserManager.SignedInUser.GardenId ?? 0;
 
+                using (GreenDbContext context = new())
+                {
+                    GreenUnitOfWork uow = new(context);
+
+                    await uow.GardenRepository.UpdateGarden(gardenId, newGarden);
+                    await uow.CompleteAsync();
+                }
+            }
             MessageBox.Show("Specifics saved!");
 
             btnBrowsePlants.IsEnabled = true;
@@ -137,6 +154,20 @@ namespace GreenThumb.Windows
             }
 
             await UpdateMyPlants();
+        }
+
+        private void btnSignOut_Click(object sender, RoutedEventArgs e)
+        {
+            UserManager.SignedInUser = null;
+
+            SignInWindow signInWindow = new();
+            signInWindow.Show();
+            Close();
+        }
+
+        private void btnInfo_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Double click a plant in the list to show details");
         }
     }
 }

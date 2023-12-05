@@ -32,7 +32,7 @@
             <RowDefinition Height="10"/>
         </Grid.RowDefinitions>
 
-        <Label Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Content="User Garden" FontSize="35" FontWeight="Bold"/>
+        <Label Name="lblWelcome" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Content="User Garden" FontSize="35" FontWeight="Bold"/>
         <Label Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="1" Content="My plants" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
         
         <Label Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Content="Specifics" VerticalAlignment="Center" FontSize="25" FontWeight="Bold"/>
@@ -57,8 +57,9 @@
 
         <Button Name="btnBrowsePlants" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="2" Height="40" Width="200" Content="Browse plants" FontSize="20" Background="DarkGreen" Foreground="AntiqueWhite" Click="btnBrowsePlants_Click" />
         <Button Name="btnRemovePlant" Grid.Column="3" Grid.Row="6" Height="40" Width="150" Content="Remove my plant" FontSize="18" Background="DarkRed" Foreground="AntiqueWhite" Click="btnRemovePlant_Click"/>
+        <Button Name="btnSignOut" Grid.Column="4" Grid.Row="6" Height="25" Width="100" Content="Sign out" FontSize="14" Background="SlateBlue" Foreground="AntiqueWhite" HorizontalAlignment="Right" Margin="0 0 5 0" Click="btnSignOut_Click"/>
 
-        <Button Name="btnInfo" Grid.Column="4" Grid.Row="1" Content="i" FontSize="20" Height="20" Width="20" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+        <Button Name="btnInfo" Grid.Column="4" Grid.Row="1" Content="i" FontSize="20" Height="20" Width="20" HorizontalAlignment="Right" VerticalAlignment="Top" Click="btnInfo_Click"/>
 
 
 

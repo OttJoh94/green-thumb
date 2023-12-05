@@ -90,25 +90,25 @@ namespace GreenThumb.Migrations
                         {
                             PlantId = 1,
                             GardenId = 1,
-                            DatePlanted = new DateTime(2023, 12, 4, 14, 37, 5, 36, DateTimeKind.Local).AddTicks(1628)
+                            DatePlanted = new DateTime(2023, 12, 5, 16, 48, 22, 645, DateTimeKind.Local).AddTicks(1872)
                         },
                         new
                         {
                             PlantId = 2,
                             GardenId = 1,
-                            DatePlanted = new DateTime(2023, 12, 4, 14, 37, 5, 36, DateTimeKind.Local).AddTicks(1675)
+                            DatePlanted = new DateTime(2023, 12, 5, 16, 48, 22, 645, DateTimeKind.Local).AddTicks(1918)
                         },
                         new
                         {
                             PlantId = 4,
                             GardenId = 1,
-                            DatePlanted = new DateTime(2023, 12, 4, 14, 37, 5, 36, DateTimeKind.Local).AddTicks(1677)
+                            DatePlanted = new DateTime(2023, 12, 5, 16, 48, 22, 645, DateTimeKind.Local).AddTicks(1920)
                         },
                         new
                         {
                             PlantId = 7,
                             GardenId = 1,
-                            DatePlanted = new DateTime(2023, 12, 4, 14, 37, 5, 36, DateTimeKind.Local).AddTicks(1679)
+                            DatePlanted = new DateTime(2023, 12, 5, 16, 48, 22, 645, DateTimeKind.Local).AddTicks(1921)
                         });
                 });
 

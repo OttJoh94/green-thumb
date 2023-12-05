@@ -49,7 +49,7 @@ namespace GreenThumb.Windows
                     else
                     {
                         //Gå till PlantWindow
-                        MyGardenWindow plantWindow = new();
+                        PlantWindow plantWindow = new();
                         plantWindow.Show();
                         Close();
                     }

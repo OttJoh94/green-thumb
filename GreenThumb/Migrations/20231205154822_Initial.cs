@@ -46,7 +46,7 @@ namespace GreenThumb.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     username = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    garden_id = table.Column<int>(type: "int", nullable: false)
+                    garden_id = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -55,8 +55,7 @@ namespace GreenThumb.Migrations
                         name: "FK_Users_Gardens_garden_id",
                         column: x => x.garden_id,
                         principalTable: "Gardens",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
@@ -132,10 +131,10 @@ namespace GreenThumb.Migrations
                 columns: new[] { "garden_id", "plant_id", "date_planted" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2023, 12, 4, 13, 49, 22, 568, DateTimeKind.Local).AddTicks(1530) },
-                    { 1, 2, new DateTime(2023, 12, 4, 13, 49, 22, 568, DateTimeKind.Local).AddTicks(1577) },
-                    { 1, 4, new DateTime(2023, 12, 4, 13, 49, 22, 568, DateTimeKind.Local).AddTicks(1579) },
-                    { 1, 7, new DateTime(2023, 12, 4, 13, 49, 22, 568, DateTimeKind.Local).AddTicks(1580) }
+                    { 1, 1, new DateTime(2023, 12, 5, 16, 48, 22, 645, DateTimeKind.Local).AddTicks(1872) },
+                    { 1, 2, new DateTime(2023, 12, 5, 16, 48, 22, 645, DateTimeKind.Local).AddTicks(1918) },
+                    { 1, 4, new DateTime(2023, 12, 5, 16, 48, 22, 645, DateTimeKind.Local).AddTicks(1920) },
+                    { 1, 7, new DateTime(2023, 12, 5, 16, 48, 22, 645, DateTimeKind.Local).AddTicks(1921) }
                 });
 
             migrationBuilder.InsertData(
@@ -179,7 +178,8 @@ namespace GreenThumb.Migrations
                 name: "IX_Users_garden_id",
                 table: "Users",
                 column: "garden_id",
-                unique: true);
+                unique: true,
+                filter: "[garden_id] IS NOT NULL");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

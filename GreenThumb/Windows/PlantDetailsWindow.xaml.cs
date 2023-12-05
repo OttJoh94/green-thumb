@@ -25,6 +25,7 @@ namespace GreenThumb.Windows
         private async void UpdateInstructions()
         {
             lstInstructions.Items.Clear();
+            txtInstruction.Text = "";
             using (GreenDbContext context = new())
             {
                 GreenUnitOfWork uow = new(context);

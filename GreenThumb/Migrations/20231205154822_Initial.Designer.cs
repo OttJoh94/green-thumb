@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GreenThumb.Migrations
 {
     [DbContext(typeof(GreenDbContext))]
-    [Migration("20231204124922_Initial")]
+    [Migration("20231205154822_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -92,25 +92,25 @@ namespace GreenThumb.Migrations
                         {
                             PlantId = 1,
                             GardenId = 1,
-                            DatePlanted = new DateTime(2023, 12, 4, 13, 49, 22, 568, DateTimeKind.Local).AddTicks(1530)
+                            DatePlanted = new DateTime(2023, 12, 5, 16, 48, 22, 645, DateTimeKind.Local).AddTicks(1872)
                         },
                         new
                         {
                             PlantId = 2,
                             GardenId = 1,
-                            DatePlanted = new DateTime(2023, 12, 4, 13, 49, 22, 568, DateTimeKind.Local).AddTicks(1577)
+                            DatePlanted = new DateTime(2023, 12, 5, 16, 48, 22, 645, DateTimeKind.Local).AddTicks(1918)
                         },
                         new
                         {
                             PlantId = 4,
                             GardenId = 1,
-                            DatePlanted = new DateTime(2023, 12, 4, 13, 49, 22, 568, DateTimeKind.Local).AddTicks(1579)
+                            DatePlanted = new DateTime(2023, 12, 5, 16, 48, 22, 645, DateTimeKind.Local).AddTicks(1920)
                         },
                         new
                         {
                             PlantId = 7,
                             GardenId = 1,
-                            DatePlanted = new DateTime(2023, 12, 4, 13, 49, 22, 568, DateTimeKind.Local).AddTicks(1580)
+                            DatePlanted = new DateTime(2023, 12, 5, 16, 48, 22, 645, DateTimeKind.Local).AddTicks(1921)
                         });
                 });
 
@@ -308,7 +308,7 @@ namespace GreenThumb.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"), 1L, 1);
 
-                    b.Property<int>("GardenId")
+                    b.Property<int?>("GardenId")
                         .HasColumnType("int")
                         .HasColumnName("garden_id");
 
@@ -325,7 +325,8 @@ namespace GreenThumb.Migrations
                     b.HasKey("UserId");
 
                     b.HasIndex("GardenId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[garden_id] IS NOT NULL");
 
                     b.ToTable("Users");
 
@@ -373,9 +374,7 @@ namespace GreenThumb.Migrations
                 {
                     b.HasOne("GreenThumb.Models.GardenModel", "Garden")
                         .WithOne("User")
-                        .HasForeignKey("GreenThumb.Models.UserModel", "GardenId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("GreenThumb.Models.UserModel", "GardenId");
 
                     b.Navigation("Garden");
                 });

@@ -7,8 +7,46 @@
         mc:Ignorable="d"
         Title="PlantWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen">
     <Grid>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="374,169,0,0" VerticalAlignment="Top" Click="Button_Click"/>
-        <ListView Name="lstPlants" MouseDoubleClick="lstPlants_MouseDoubleClick"/>
+        <Grid.Background>
+            <RadialGradientBrush>
+                <GradientStop Color="White"/>
+                <GradientStop Color="#FF71FE4A" Offset="1"/>
+            </RadialGradientBrush>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="1.5*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="50"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
 
+        <Label Grid.Column="2" Grid.ColumnSpan="3"  Grid.Row="1" Content="GreenThumb Plants" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="30"/>
+        <Label Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Content="All plants" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="20"/>
+        <Label Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="1" Content="My plants" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="20"/>
+
+        <ListView Name="lstAllPlants" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" Grid.RowSpan="2" MouseDoubleClick="lstAllPlants_MouseDoubleClick"/>
+        <ListView Name="lstMyPlants" Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="2" Grid.RowSpan="2" MouseDoubleClick="lstMyPlants_MouseDoubleClick"/>
+
+        <Button Name="btnAddToGarden" Grid.Column="3" Grid.Row="2" Height="25" Width="120" Content="Add to my garden" VerticalAlignment="Bottom" Margin="0 0 0 10" Click="btnAddToGarden_Click" Background="LawnGreen"/>
+        <Button Name="btnRemoveFromGarden" Grid.Column="3" Grid.Row="3" Height="25" Width="150" Content="Remove from my garden" VerticalAlignment="Top" Margin="0 10 0 0" Click="btnRemoveFromGarden_Click" Background="PaleVioletRed"/>
+
+        <Button Name="btnAddPlant" Grid.Column="1" Grid.Row="4" Height="25" Width="100" Content="Add plant" VerticalAlignment="Top" Margin="0 10" Click="btnAddPlant_Click"/>
+        <Button Name="btnDeletePlant" Grid.Column="2" Grid.Row="4" Height="25" Width="100" Content="Delete plant" VerticalAlignment="Top" Margin="0 10" Click="btnDeletePlant_Click"/>
+
+        <Button Name="btnGoToGarden" Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="4" Height="35" Width="150" Content="Go to My Garden" VerticalAlignment="Top" Margin="0 10" Click="btnGoToGarden_Click"/>
+
+        <Button Name="btnSignOut" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="1" Height="25" Width="100" Content="Sign Out" VerticalAlignment="Top" Margin="0 10" Click="btnSignOut_Click"/>
+        <Button Name="btnInfo" Grid.Column="1"  Grid.Row="1" Height="25" Width="50" Content="Info" VerticalAlignment="Top" Margin="0 10" HorizontalAlignment="Left" Click="btnInfo_Click"/>
     </Grid>
 </Window>
