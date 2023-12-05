@@ -31,20 +31,27 @@ namespace GreenThumb.Windows
             {
                 GreenUnitOfWork uow = new(context);
 
-                var user = await uow.UserRepository.SignInUser(username, password);
+                //Returnerar null om det inte går att hämta användaren
+                var user = await uow.UserRepository.GetUser(username, password);
 
                 if (user != null)
                 {
                     UserManager.SignedInUser = user;
+
+                    //Går till olika fönster om det är första gången man loggar in och inte har någon Garden än
                     if (user.GardenId == null)
                     {
                         //Gå till GardenWindow
-                        MessageBox.Show("GardenWindow");
+                        MyGardenWindow myGardenWindow = new("First time signing in");
+                        myGardenWindow.Show();
+                        Close();
                     }
                     else
                     {
                         //Gå till PlantWindow
-                        MessageBox.Show("PlantWindow");
+                        PlantWindow plantWindow = new();
+                        plantWindow.Show();
+                        Close();
                     }
                 }
                 else

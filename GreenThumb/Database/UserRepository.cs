@@ -18,11 +18,27 @@ namespace GreenThumb.Database
             return true;
         }
 
-        public async Task<UserModel?> SignInUser(string username, string password)
+        public async Task<UserModel?> GetUser(string username, string password)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username && u.Password == password);
 
             return user;
+        }
+
+        public async Task<GardenModel?> GetGardenFromUser(UserModel user)
+        {
+            var garden = await _context.Gardens.FirstOrDefaultAsync(g => g.GardenId == user.GardenId);
+
+            return garden;
+        }
+
+        public async Task UpdateGardenIdOnUser(UserModel user, int gardenId)
+        {
+            var userToUpdate = await GetByIdAsync(user.UserId);
+            if (userToUpdate != null)
+            {
+                userToUpdate.GardenId = gardenId;
+            }
         }
     }
 }
