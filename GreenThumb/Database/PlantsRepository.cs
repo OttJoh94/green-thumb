@@ -35,5 +35,18 @@ namespace GreenThumb.Database
                 plantToUpdate.ScientificName = newPlant.ScientificName;
             }
         }
+
+
+        public async Task<bool> PlantAlreadyAdded(string newPlant)
+        {
+            var plant = await _context.Plants.FirstOrDefaultAsync(p => p.CommonName == newPlant);
+
+            if (plant == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
     }
 }

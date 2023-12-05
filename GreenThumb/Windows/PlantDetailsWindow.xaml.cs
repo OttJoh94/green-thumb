@@ -29,9 +29,9 @@ namespace GreenThumb.Windows
             {
                 GreenUnitOfWork uow = new(context);
 
-                var filteredInstructions = await uow.InstructionRepository.GetAllInstructionsById(_plantId);
+                var plantInstructions = await uow.InstructionRepository.GetAllInstructionsById(_plantId);
 
-                foreach (var instruction in filteredInstructions)
+                foreach (var instruction in plantInstructions)
                 {
                     ListViewItem item = new();
                     item.Tag = instruction;

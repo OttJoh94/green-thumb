@@ -55,8 +55,8 @@
 
         <Button Name="btnSpecifics" Grid.Column="1" Grid.Row="5" Content="Save specifics" Width="100" Height="20" VerticalAlignment="Top" Click="btnSpecifics_Click"/>
 
-        <Button Name="btnBrowsePlants" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="2" Height="40" Width="200" Content="Browse plants" FontSize="20" Background="DarkGreen" Foreground="AntiqueWhite" />
-        <Button Name="btnRemovePlant" Grid.Column="3" Grid.Row="6" Height="40" Width="150" Content="Remove my plant" FontSize="18" Background="DarkRed" Foreground="AntiqueWhite"/>
+        <Button Name="btnBrowsePlants" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="2" Height="40" Width="200" Content="Browse plants" FontSize="20" Background="DarkGreen" Foreground="AntiqueWhite" Click="btnBrowsePlants_Click" />
+        <Button Name="btnRemovePlant" Grid.Column="3" Grid.Row="6" Height="40" Width="150" Content="Remove my plant" FontSize="18" Background="DarkRed" Foreground="AntiqueWhite" Click="btnRemovePlant_Click"/>
 
         <Button Name="btnInfo" Grid.Column="4" Grid.Row="1" Content="i" FontSize="20" Height="20" Width="20" HorizontalAlignment="Right" VerticalAlignment="Top"/>
 

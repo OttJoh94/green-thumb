@@ -38,6 +38,20 @@ namespace GreenThumb.Windows
                     txtEnvironment.Text = garden.Environment;
                 }
 
+
+
+            }
+            await UpdateMyPlants();
+        }
+
+        private async Task UpdateMyPlants()
+        {
+            lstPlants.Items.Clear();
+
+            using (GreenDbContext context = new())
+            {
+                GreenUnitOfWork uow = new(context);
+
                 // Om GardenID inte skulle finnas blir är gardenId satt till 0
                 int gardenId = UserManager.SignedInUser.GardenId ?? 0;
                 if (gardenId != 0)
@@ -48,15 +62,13 @@ namespace GreenThumb.Windows
                     foreach (var gardenPlant in FilteredGardenPlants)
                     {
                         ListViewItem item = new();
-                        item.Tag = gardenPlant.Plant;
+                        item.Tag = gardenPlant;
                         item.Content = new { PlantName = gardenPlant.Plant.CommonName, DateSeeded = gardenPlant.DatePlanted.ToShortDateString() };
                         lstPlants.Items.Add(item);
                     }
                 }
-
-
-
             }
+
         }
 
         private async void btnSpecifics_Click(object sender, RoutedEventArgs e)
@@ -95,11 +107,36 @@ namespace GreenThumb.Windows
         private void ListView_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             ListViewItem selectedItem = (ListViewItem)lstPlants.SelectedItem;
-            PlantModel selectedPlant = (PlantModel)selectedItem.Tag;
+            GardenPlantModel selectedPlant = (GardenPlantModel)selectedItem.Tag;
 
-            PlantDetailsWindow detailsWindow = new(selectedPlant.PlantId, "MyGarden");
+            PlantDetailsWindow detailsWindow = new(selectedPlant.Plant.PlantId, "MyGarden");
             detailsWindow.Show();
             Close();
+        }
+
+        private void btnBrowsePlants_Click(object sender, RoutedEventArgs e)
+        {
+            PlantWindow window = new();
+            window.Show();
+            Close();
+        }
+
+        private async void btnRemovePlant_Click(object sender, RoutedEventArgs e)
+        {
+            if (lstPlants.SelectedItem == null) return;
+
+            ListViewItem selectedItem = (ListViewItem)lstPlants.SelectedItem;
+            GardenPlantModel selectedPlant = (GardenPlantModel)selectedItem.Tag;
+
+            using (GreenDbContext context = new())
+            {
+                GreenUnitOfWork uow = new(context);
+
+                uow.GardenPlantRepository.Remove(selectedPlant);
+                await uow.CompleteAsync();
+            }
+
+            await UpdateMyPlants();
         }
     }
 }
