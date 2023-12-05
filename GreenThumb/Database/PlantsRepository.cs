@@ -12,6 +12,13 @@ namespace GreenThumb.Database
             return await _context.Plants.Include(p => p.Instructions).ToListAsync();
         }
 
+        public async Task<List<GardenPlantModel>> GetGardenPlantsIncludingPlant(int gardenId)
+        {
+            var myGardenPlants = await _context.GardenPlants.Include(g => g.Plant).ToListAsync();
+
+            return myGardenPlants;
+        }
+
         public async Task<PlantModel?> GetPlantWithInstructions(int id)
         {
             return await _context.Plants.Include(p => p.Instructions).FirstOrDefaultAsync(p => p.PlantId == id);

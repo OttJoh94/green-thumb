@@ -33,5 +33,22 @@ namespace GreenThumb
 
             }
         }
+
+        public async void TestIgen()
+        {
+            using (GreenDbContext context = new())
+            {
+                GreenUnitOfWork uow = new(context);
+
+                var allPlants = await uow.PlantRepository.GetAllAsync();
+
+                var allUsers = await uow.UserRepository.GetAllAsync();
+
+
+            }
+
+
+        }
     }
+
 }

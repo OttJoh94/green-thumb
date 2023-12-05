@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GreenThumb.Windows"
         mc:Ignorable="d"
-        Title="PlantWindow" Height="450" Width="800">
+        Title="PlantWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen">
     <Grid>
-        
+        <Button Content="Button" HorizontalAlignment="Left" Margin="374,169,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+        <ListView Name="lstPlants" MouseDoubleClick="lstPlants_MouseDoubleClick"/>
+
     </Grid>
 </Window>

@@ -2,6 +2,7 @@
 using GreenThumb.Managers;
 using GreenThumb.Models;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace GreenThumb.Windows
 {
@@ -23,7 +24,7 @@ namespace GreenThumb.Windows
             btnBrowsePlants.IsEnabled = false;
             btnRemovePlant.IsEnabled = false;
         }
-        private async Task FillInInfo()
+        private async void FillInInfo()
         {
             using (GreenDbContext context = new())
             {
@@ -36,6 +37,25 @@ namespace GreenThumb.Windows
                     txtLocation.Text = garden.Location;
                     txtEnvironment.Text = garden.Environment;
                 }
+
+                // Om GardenID inte skulle finnas blir är gardenId satt till 0
+                int gardenId = UserManager.SignedInUser.GardenId ?? 0;
+                if (gardenId != 0)
+                {
+                    //Hämtar alla gardenplants som tillhör rätt gardenId, inkludarar Plant för att komma åt CommonName senare
+                    var FilteredGardenPlants = await uow.PlantRepository.GetGardenPlantsIncludingPlant(gardenId);
+
+                    foreach (var gardenPlant in FilteredGardenPlants)
+                    {
+                        ListViewItem item = new();
+                        item.Tag = gardenPlant.Plant;
+                        item.Content = new { PlantName = gardenPlant.Plant.CommonName, DateSeeded = gardenPlant.DatePlanted.ToShortDateString() };
+                        lstPlants.Items.Add(item);
+                    }
+                }
+
+
+
             }
         }
 
@@ -69,6 +89,17 @@ namespace GreenThumb.Windows
             btnBrowsePlants.IsEnabled = true;
             btnRemovePlant.IsEnabled = true;
 
+        }
+
+
+        private void ListView_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            ListViewItem selectedItem = (ListViewItem)lstPlants.SelectedItem;
+            PlantModel selectedPlant = (PlantModel)selectedItem.Tag;
+
+            PlantDetailsWindow detailsWindow = new(selectedPlant.PlantId, "MyGarden");
+            detailsWindow.Show();
+            Close();
         }
     }
 }

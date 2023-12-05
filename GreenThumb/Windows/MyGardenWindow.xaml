@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GreenThumb.Windows"
         mc:Ignorable="d"
-        Title="MyGardenWindow" Height="450" Width="800">
+        Title="MyGardenWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.Background>
             <RadialGradientBrush>
@@ -44,7 +44,7 @@
         <TextBox Name="txtLocation" Grid.Column="2" Grid.Row="3" Height="25" Width="160" VerticalContentAlignment="Center" FontSize="16"/>
         <TextBox Name="txtEnvironment" Grid.Column="2" Grid.Row="4" Height="25" Width="160" VerticalContentAlignment="Center" FontSize="16"/>
 
-        <ListView Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="2" Grid.RowSpan="4" Margin="5">
+        <ListView Name="lstPlants" Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="2" Grid.RowSpan="4" Margin="5" MouseDoubleClick="ListView_MouseDoubleClick">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name of plant" DisplayMemberBinding="{Binding PlantName}" Width="200"/>

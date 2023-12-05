@@ -5,8 +5,53 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GreenThumb.Windows"
         mc:Ignorable="d"
-        Title="PlantDetailsWindow" Height="450" Width="800">
+        Title="PlantDetailsWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen">
     <Grid>
-        
+        <Grid.Background>
+            <RadialGradientBrush>
+                <GradientStop Color="White"/>
+                <GradientStop Color="#FF71FE4A" Offset="1"/>
+            </RadialGradientBrush>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition />
+            <ColumnDefinition Width="10"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Column="1" Grid.Row="1" Content="Common name" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <Label Grid.Column="1" Grid.Row="2" Content="Scientific name" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <Label Grid.Column="2" Grid.Row="3" Content="Instructions" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+        <TextBox Name="txtCommonName" Grid.Column="2" Grid.Row="1" Height="30" Width="200" HorizontalAlignment="Left" VerticalContentAlignment="Center" FontSize="16" IsEnabled="false"/>
+        <TextBox Name="txtScientificName" Grid.Column="2" Grid.Row="2" Height="30" Width="200" HorizontalAlignment="Left" VerticalContentAlignment="Center" FontSize="16" IsEnabled="false"/>
+
+        <ListView Name="lstInstructions" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="4" Margin="30 0"/>
+
+        <Label Grid.Column="2" Grid.Row="5" Content="New instructions" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+        <TextBox Name="txtInstruction" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="3" Height="30" VerticalContentAlignment="Center" FontSize="16" Margin="30 0"/>
+
+        <Button Name="btnAddInstruction" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="7" Width="180" Height="30" Content="Add instruction" FontSize="14" Click="btnAddInstruction_Click"/>
+        <Button Name="btnRemoveInstruction" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="7" Width="180" Height="30" Content="Remove instruction" FontSize="14" Click="btnRemoveInstruction_Click"/>
+
+        <Button Name="btnEdit" Grid.Column="3"  Grid.Row="2" Width="100" Height="30" Content="Edit" HorizontalAlignment="Left" FontSize="14" Click="btnEdit_Click"/>
+        <Button Name="btnSave" Grid.Column="3"  Grid.Row="2" Width="100" Height="30" Content="Save" HorizontalAlignment="Left" FontSize="14" Visibility="Hidden" Click="btnSave_Click"/>
+
+        <Button Name="btnBack" Grid.Column="3"  Grid.Row="1" Width="100" Height="30" Content="Back" HorizontalAlignment="Right" FontSize="14" Click="btnBack_Click"/>
+
     </Grid>
 </Window>

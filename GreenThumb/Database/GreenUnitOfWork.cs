@@ -9,7 +9,7 @@ namespace GreenThumb.Database
         public Repository<GardenModel> GardenRepository { get; } = new(context);
         public Repository<GardenPlantModel> GardenPlantRepository { get; } = new(context);
         public PlantsRepository PlantRepository { get; } = new(context);
-        public Repository<InstructionModel> InstructionRepository { get; } = new(context);
+        public InstructionsRepository InstructionRepository { get; } = new(context);
 
         public async Task CompleteAsync() => await _context.SaveChangesAsync();
     }
