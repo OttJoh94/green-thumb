@@ -12,6 +12,5 @@ namespace GreenThumb.Database
         public async Task AddAsync(T entity) => await _dbSet.AddAsync(entity);
         //Gör den void för att det inte finns någon RemoveAsync i entity framework
         public void Remove(T entity) => _dbSet.Remove(entity);
-        public async Task SaveChangesAsync() => await _context.SaveChangesAsync();
     }
 }

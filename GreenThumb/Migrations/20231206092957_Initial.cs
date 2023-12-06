@@ -131,10 +131,10 @@ namespace GreenThumb.Migrations
                 columns: new[] { "garden_id", "plant_id", "date_planted" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2023, 12, 5, 16, 48, 22, 645, DateTimeKind.Local).AddTicks(1872) },
-                    { 1, 2, new DateTime(2023, 12, 5, 16, 48, 22, 645, DateTimeKind.Local).AddTicks(1918) },
-                    { 1, 4, new DateTime(2023, 12, 5, 16, 48, 22, 645, DateTimeKind.Local).AddTicks(1920) },
-                    { 1, 7, new DateTime(2023, 12, 5, 16, 48, 22, 645, DateTimeKind.Local).AddTicks(1921) }
+                    { 1, 1, new DateTime(2023, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 1, 2, new DateTime(2023, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 1, 4, new DateTime(2023, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 1, 7, new DateTime(2023, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -162,7 +162,7 @@ namespace GreenThumb.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "id", "garden_id", "password", "username" },
-                values: new object[] { 1, 1, "bOPFnRPqQB6Cb1z34z2O8g==", "user" });
+                values: new object[] { 1, 1, "oNyRrCRpIWtrkO/2lPWtiA==", "user" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_GardenPlants_garden_id",

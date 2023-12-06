@@ -7,23 +7,13 @@ namespace GreenThumb.Database
     {
         private readonly GreenDbContext _context = context;
 
-        public async Task<List<PlantModel>> GetAllWithInstructions()
-        {
-            return await _context.Plants.Include(p => p.Instructions).ToListAsync();
-        }
-
+        //Hämtar alla gardenplants inkluderat med plant
         public async Task<List<GardenPlantModel>> GetGardenPlantsIncludingPlant(int gardenId)
         {
             var myGardenPlants = await _context.GardenPlants.Include(g => g.Plant).Where(g => g.GardenId == gardenId).ToListAsync();
 
             return myGardenPlants;
         }
-
-        public async Task<PlantModel?> GetPlantWithInstructions(int id)
-        {
-            return await _context.Plants.Include(p => p.Instructions).FirstOrDefaultAsync(p => p.PlantId == id);
-        }
-
 
         public async Task UpdatePlantAsync(int id, PlantModel newPlant)
         {
@@ -35,7 +25,6 @@ namespace GreenThumb.Database
                 plantToUpdate.ScientificName = newPlant.ScientificName;
             }
         }
-
 
         public async Task<bool> PlantAlreadyAdded(string newPlant)
         {

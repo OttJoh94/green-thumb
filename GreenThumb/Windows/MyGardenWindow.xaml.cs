@@ -15,15 +15,21 @@ namespace GreenThumb.Windows
         {
             InitializeComponent();
             FillInInfo();
-            lblWelcome.Content = UserManager.SignedInUser.Username + "'s Garden";
+            SetWelcomeLabel();
         }
 
         public MyGardenWindow(string firstTime)
         {
             InitializeComponent();
+            SetWelcomeLabel();
             MessageBox.Show("Welcome to your garden! Since it's the first time you logged in you have to save your secifics to your garden.", "Welcom");
             btnBrowsePlants.IsEnabled = false;
             btnRemovePlant.IsEnabled = false;
+        }
+
+        private void SetWelcomeLabel()
+        {
+            lblWelcome.Content = UserManager.SignedInUser.Username + "'s Garden";
         }
         private async void FillInInfo()
         {
@@ -38,9 +44,6 @@ namespace GreenThumb.Windows
                     txtLocation.Text = garden.Location;
                     txtEnvironment.Text = garden.Environment;
                 }
-
-
-
             }
             await UpdateMyPlants();
         }
@@ -55,9 +58,11 @@ namespace GreenThumb.Windows
 
                 // Om GardenID inte skulle finnas blir är gardenId satt till 0
                 int gardenId = UserManager.SignedInUser.GardenId ?? 0;
+
+                // Om vi inte har något GardenId så har vi inga plants att printa ut än
                 if (gardenId != 0)
                 {
-                    //Hämtar alla gardenplants som tillhör rätt gardenId, inkludarar Plant för att komma åt CommonName senare
+                    //Hämtar alla gardenplants som tillhör rätt gardenId, inkludarar Plant för att komma åt CommonName i foreachen
                     var FilteredGardenPlants = await uow.PlantRepository.GetGardenPlantsIncludingPlant(gardenId);
 
                     foreach (var gardenPlant in FilteredGardenPlants)
@@ -83,6 +88,7 @@ namespace GreenThumb.Windows
                 MessageBox.Show("Invalid inputs", "Error");
                 return;
             }
+
             GardenModel newGarden = new() { Location = location, Environment = environment, SquareMeters = squareMeters };
 
             //Körs allra första gången om inte user har tilldelats en garden än
@@ -90,10 +96,12 @@ namespace GreenThumb.Windows
             {
                 using (GreenDbContext context = new())
                 {
+                    //Skapa en ny garden
                     GreenUnitOfWork uow = new(context);
                     await uow.GardenRepository.AddAsync(newGarden);
                     await uow.CompleteAsync();
 
+                    //Uppdatera userns GardenID så den länkas ihop med sin nya Garden.
                     await uow.UserRepository.UpdateGardenIdOnUser(UserManager.SignedInUser!, newGarden.GardenId);
                     await uow.CompleteAsync();
 
@@ -103,6 +111,7 @@ namespace GreenThumb.Windows
             }
             else
             {
+                // ?? 0 för att göra om från int? till int. Annars fungerar inte UpdateGarden.
                 int gardenId = UserManager.SignedInUser.GardenId ?? 0;
 
                 using (GreenDbContext context = new())
@@ -126,6 +135,7 @@ namespace GreenThumb.Windows
             ListViewItem selectedItem = (ListViewItem)lstPlants.SelectedItem;
             GardenPlantModel selectedPlant = (GardenPlantModel)selectedItem.Tag;
 
+            //Skickar med ID för att hämta rätt ID i details. "MyGarden" är för att veta vilket fönster vi kom ifrån så vi går dit igen när vi klickar "back"
             PlantDetailsWindow detailsWindow = new(selectedPlant.Plant.PlantId, "MyGarden");
             detailsWindow.Show();
             Close();

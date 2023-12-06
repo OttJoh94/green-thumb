@@ -13,6 +13,8 @@ namespace GreenThumb.Windows
     {
         private string _comingFrom;
         private int _plantId;
+
+        //Tar emot plantId för att veta vilken blomma vi ska jobba med, comingFrom är för att veta vilket fönster vi ska öppna om vi klickar på "Back"
         public PlantDetailsWindow(int plantId, string comingFrom)
         {
             InitializeComponent();
@@ -30,6 +32,7 @@ namespace GreenThumb.Windows
             {
                 GreenUnitOfWork uow = new(context);
 
+                //FilterMetod som bara returnerar instructionerna som tillhör ett visst plantId
                 var plantInstructions = await uow.InstructionRepository.GetAllInstructionsById(_plantId);
 
                 foreach (var instruction in plantInstructions)
@@ -61,6 +64,7 @@ namespace GreenThumb.Windows
 
         }
 
+        //Edit-knappen och Save-knappen ligger på samma plats, så när man trycker på edit gömmer sig den och save visar sig istället.
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
             txtCommonName.IsEnabled = true;
@@ -79,7 +83,7 @@ namespace GreenThumb.Windows
             using (GreenDbContext context = new())
             {
                 GreenUnitOfWork uow = new(context);
-
+                //Uppdaterar plantan i fråga
                 await uow.PlantRepository.UpdatePlantAsync(_plantId, newPlant);
                 await uow.CompleteAsync();
             }
@@ -96,6 +100,7 @@ namespace GreenThumb.Windows
         {
             PlantManager.SelectedPlant = null;
 
+            //Kollar vilket fönster vi kom ifrån, sattes i konstruktorn.
             if (_comingFrom == "MyGarden")
             {
                 MyGardenWindow myGardenWindow = new();

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GreenThumb.Migrations
 {
     [DbContext(typeof(GreenDbContext))]
-    [Migration("20231205154822_Initial")]
+    [Migration("20231206092957_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -92,25 +92,25 @@ namespace GreenThumb.Migrations
                         {
                             PlantId = 1,
                             GardenId = 1,
-                            DatePlanted = new DateTime(2023, 12, 5, 16, 48, 22, 645, DateTimeKind.Local).AddTicks(1872)
+                            DatePlanted = new DateTime(2023, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             PlantId = 2,
                             GardenId = 1,
-                            DatePlanted = new DateTime(2023, 12, 5, 16, 48, 22, 645, DateTimeKind.Local).AddTicks(1918)
+                            DatePlanted = new DateTime(2023, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             PlantId = 4,
                             GardenId = 1,
-                            DatePlanted = new DateTime(2023, 12, 5, 16, 48, 22, 645, DateTimeKind.Local).AddTicks(1920)
+                            DatePlanted = new DateTime(2023, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             PlantId = 7,
                             GardenId = 1,
-                            DatePlanted = new DateTime(2023, 12, 5, 16, 48, 22, 645, DateTimeKind.Local).AddTicks(1921)
+                            DatePlanted = new DateTime(2023, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -335,7 +335,7 @@ namespace GreenThumb.Migrations
                         {
                             UserId = 1,
                             GardenId = 1,
-                            Password = "bOPFnRPqQB6Cb1z34z2O8g==",
+                            Password = "oNyRrCRpIWtrkO/2lPWtiA==",
                             Username = "user"
                         });
                 });

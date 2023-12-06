@@ -9,6 +9,7 @@ namespace GreenThumb.Windows
     /// </summary>
     public partial class AddPlantWindow : Window
     {
+        //Sparar instructioner som strängar i en lista för att skapa InstructionModel efter PlantModel och kunna tilldela rätt PlantId.
         List<string> _instructions = new();
         public AddPlantWindow()
         {
@@ -20,7 +21,8 @@ namespace GreenThumb.Windows
             if (string.IsNullOrWhiteSpace(txtInstruction.Text)) return;
 
             string instruction = txtInstruction.Text;
-            //Lägger bara in en sträng för det är det enda vi behöver
+
+            //Sparar instructionen i en field variable för att använda senare
             _instructions.Add(instruction);
 
             UpdateInstructions();
@@ -67,6 +69,7 @@ namespace GreenThumb.Windows
                 MessageBox.Show("Invalid names");
                 return;
             }
+            //Har valt att alla blommor måste ha minst en instruction
             if (_instructions.Count <= 0)
             {
                 MessageBox.Show("No instructions added");
@@ -77,6 +80,7 @@ namespace GreenThumb.Windows
             {
                 GreenUnitOfWork uow = new(context);
 
+                //Kontrollerar så blomman inte redan finns i registret
                 bool alreadyAdded = await uow.PlantRepository.PlantAlreadyAdded(commonName);
 
                 if (alreadyAdded)
@@ -84,11 +88,12 @@ namespace GreenThumb.Windows
                     MessageBox.Show("That plant is already added to the database");
                     return;
                 }
-
+                //Lägger till en ny blomma
                 PlantModel newPlant = new() { CommonName = commonName, ScientificName = scientificName, };
                 await uow.PlantRepository.AddAsync(newPlant);
                 await uow.CompleteAsync();
 
+                //Efter Complete har newPlant tilldelats ett plantId vilket gör att vi kan skapa InstructionModel efter våra instruciontssträngar i field variable listan
                 foreach (string instruction in _instructions)
                 {
                     InstructionModel newInstruction = new() { Description = instruction, PlantId = newPlant.PlantId };

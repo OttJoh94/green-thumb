@@ -71,10 +71,10 @@ namespace GreenThumb.Database
                 );
 
             modelBuilder.Entity<GardenPlantModel>().HasData(
-                new GardenPlantModel { GardenId = 1, PlantId = 1 },
-                new GardenPlantModel { GardenId = 1, PlantId = 2 },
-                new GardenPlantModel { GardenId = 1, PlantId = 4 },
-                new GardenPlantModel { GardenId = 1, PlantId = 7 }
+                new GardenPlantModel { GardenId = 1, PlantId = 1, DatePlanted = new DateTime(2023, 06, 11) },
+                new GardenPlantModel { GardenId = 1, PlantId = 2, DatePlanted = new DateTime(2023, 06, 15) },
+                new GardenPlantModel { GardenId = 1, PlantId = 4, DatePlanted = new DateTime(2023, 08, 20) },
+                new GardenPlantModel { GardenId = 1, PlantId = 7, DatePlanted = new DateTime(2023, 08, 20) }
                 );
 
             modelBuilder.Entity<UserModel>().HasData(

@@ -11,30 +11,43 @@ namespace GreenThumb.Windows
     /// </summary>
     public partial class PlantWindow : Window
     {
+        private List<PlantModel> _allPlants = new();
         public PlantWindow()
         {
             InitializeComponent();
-            UpdateLists();
+            UpdateMyPlants();
+            UpdateAllPlants();
         }
 
-        private async void UpdateLists()
+        private async void UpdateAllPlants()
         {
             lstAllPlants.Items.Clear();
-            lstMyPlants.Items.Clear();
 
             using (GreenDbContext context = new())
             {
                 GreenUnitOfWork uow = new(context);
 
-                var allPlants = await uow.PlantRepository.GetAllAsync();
+                _allPlants = await uow.PlantRepository.GetAllAsync();
 
-                foreach (var plant in allPlants)
+                //Kanske flytta ut till egen metod
+                foreach (var plant in _allPlants)
                 {
                     ListViewItem item = new();
                     item.Tag = plant;
                     item.Content = plant.CommonName;
                     lstAllPlants.Items.Add(item);
                 }
+            }
+        }
+
+        private async void UpdateMyPlants()
+        {
+
+            lstMyPlants.Items.Clear();
+
+            using (GreenDbContext context = new())
+            {
+                GreenUnitOfWork uow = new(context);
 
                 // Om GardenID inte skulle finnas blir är gardenId satt till 0
                 int gardenId = UserManager.SignedInUser.GardenId ?? 0;
@@ -118,7 +131,8 @@ namespace GreenThumb.Windows
                 await uow.CompleteAsync();
             }
 
-            UpdateLists();
+            UpdateAllPlants();
+            UpdateMyPlants();
         }
 
         private async void btnAddToGarden_Click(object sender, RoutedEventArgs e)
@@ -151,7 +165,7 @@ namespace GreenThumb.Windows
 
             }
 
-            UpdateLists();
+            UpdateMyPlants();
         }
 
         private async void btnRemoveFromGarden_Click(object sender, RoutedEventArgs e)
@@ -176,7 +190,7 @@ namespace GreenThumb.Windows
                 MessageBox.Show("Something went wrong");
             }
 
-            UpdateLists();
+            UpdateMyPlants();
 
         }
 
@@ -191,7 +205,33 @@ namespace GreenThumb.Windows
 
         private void btnInfo_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Double click a plant in the list to show details");
+            MessageBox.Show("Double click a plant in the list to show details. \nWrite in the searchbar above all plants to search for a plant");
+        }
+
+        private async void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            lstAllPlants.Items.Clear();
+            string input = txtSearch.Text;
+
+            if (input == "")
+            {
+                UpdateAllPlants();
+            }
+            else
+            {
+
+                var result = from plant in _allPlants
+                             where plant.CommonName.StartsWith(input, StringComparison.OrdinalIgnoreCase)
+                             select plant;
+
+                foreach (var plant in result)
+                {
+                    ListViewItem item = new();
+                    item.Tag = plant;
+                    item.Content = plant.CommonName;
+                    lstAllPlants.Items.Add(item);
+                }
+            }
         }
     }
 }
