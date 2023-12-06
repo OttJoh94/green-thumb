@@ -11,6 +11,7 @@ namespace GreenThumb.Windows
     /// </summary>
     public partial class MyGardenWindow : Window
     {
+        //Konstruktorn för alla användare som redan tilldelats ett GardenId
         public MyGardenWindow()
         {
             InitializeComponent();
@@ -18,11 +19,12 @@ namespace GreenThumb.Windows
             SetWelcomeLabel();
         }
 
+        //Om man loggar in som ny användare och inte har ett gardenId än skickas man hit så man måste skapa sin garden innan man kan välja bland alla plantor.
         public MyGardenWindow(string firstTime)
         {
             InitializeComponent();
             SetWelcomeLabel();
-            MessageBox.Show("Welcome to your garden! Since it's the first time you logged in you have to save your secifics to your garden.", "Welcom");
+            MessageBox.Show("Welcome to your garden! Since it's the first time you logged in you have to save your secifics to your garden.", "Welcome");
             btnBrowsePlants.IsEnabled = false;
             btnRemovePlant.IsEnabled = false;
         }
@@ -69,7 +71,7 @@ namespace GreenThumb.Windows
                     {
                         ListViewItem item = new();
                         item.Tag = gardenPlant;
-                        item.Content = new { PlantName = gardenPlant.Plant.CommonName, DateSeeded = gardenPlant.DatePlanted.ToShortDateString() };
+                        item.Content = new { PlantName = gardenPlant.Plant.CommonName, DateSeeded = gardenPlant.DatePlanted.ToString() };
                         lstPlants.Items.Add(item);
                     }
                 }
@@ -83,6 +85,7 @@ namespace GreenThumb.Windows
             string location = txtLocation.Text;
             string environment = txtEnvironment.Text;
 
+            //Validation. squareMeters är 0 om parsen inte fungerar.
             if (squareMeters == 0 || location == "" || environment == "")
             {
                 MessageBox.Show("Invalid inputs", "Error");

@@ -15,11 +15,11 @@ namespace GreenThumb.Windows
         public PlantWindow()
         {
             InitializeComponent();
-            UpdateMyPlants();
-            UpdateAllPlants();
+            UpdateMyPlantsList();
+            UpdateAllPlantsList();
         }
 
-        private async void UpdateAllPlants()
+        private async void UpdateAllPlantsList()
         {
             lstAllPlants.Items.Clear();
 
@@ -29,7 +29,6 @@ namespace GreenThumb.Windows
 
                 _allPlants = await uow.PlantRepository.GetAllAsync();
 
-                //Kanske flytta ut till egen metod
                 foreach (var plant in _allPlants)
                 {
                     ListViewItem item = new();
@@ -40,7 +39,7 @@ namespace GreenThumb.Windows
             }
         }
 
-        private async void UpdateMyPlants()
+        private async void UpdateMyPlantsList()
         {
 
             lstMyPlants.Items.Clear();
@@ -49,13 +48,12 @@ namespace GreenThumb.Windows
             {
                 GreenUnitOfWork uow = new(context);
 
-                // Om GardenID inte skulle finnas blir är gardenId satt till 0
+                // Om GardenID inte skulle finnas blir är gardenId satt till 0. Görs främst för att göra om int? till int
                 int gardenId = UserManager.SignedInUser.GardenId ?? 0;
                 if (gardenId != 0)
                 {
-                    //Hämtar alla gardenplants som tillhör rätt gardenId, inkludarar Plant för att komma åt CommonName senare
+                    //Hämtar alla gardenplants som tillhör rätt gardenId, inkludarar Plant för att komma åt CommonName i foreach-loopen
                     var FilteredGardenPlants = await uow.PlantRepository.GetGardenPlantsIncludingPlant(gardenId);
-
 
                     foreach (var gardenPlant in FilteredGardenPlants)
                     {
@@ -81,8 +79,6 @@ namespace GreenThumb.Windows
             ListViewItem selectedItem = (ListViewItem)lstAllPlants.SelectedItem;
             PlantModel selectedPlant = (PlantModel)selectedItem.Tag;
 
-            PlantManager.SelectedPlant = selectedPlant;
-
             //Skickar med Id och varifrån jag kommer så jag vet vart jag ska gå om jag klicka "back"
             PlantDetailsWindow detailsWindow = new(selectedPlant.PlantId, "PlantWindow");
             detailsWindow.Show();
@@ -101,6 +97,7 @@ namespace GreenThumb.Windows
             ListViewItem selectedItem = (ListViewItem)lstMyPlants.SelectedItem;
             GardenPlantModel selectedGardenPlant = (GardenPlantModel)selectedItem.Tag;
 
+            //I myPlants-listan är det GardenPlantModel i listan istället för PlantModel, men kommer ändå åt PlantId.
             int plantId = selectedGardenPlant.PlantId;
 
             //Skickar med Id och varifrån jag kommer så jag vet vart jag ska gå om jag klicka "back"
@@ -131,21 +128,24 @@ namespace GreenThumb.Windows
                 await uow.CompleteAsync();
             }
 
-            UpdateAllPlants();
-            UpdateMyPlants();
+            UpdateAllPlantsList();
+            UpdateMyPlantsList();
         }
 
         private async void btnAddToGarden_Click(object sender, RoutedEventArgs e)
         {
             if (lstAllPlants.SelectedItem == null) return;
+
             ListViewItem selectedItem = (ListViewItem)lstAllPlants.SelectedItem;
             PlantModel selectedPlant = (PlantModel)selectedItem.Tag;
 
+            //Hämtar det jag behöver för att göra en GardenPlantModel. ?? 0 är för att konvertera från int? till int
             int plantId = selectedPlant.PlantId;
             int gardenId = UserManager.SignedInUser.GardenId ?? 0;
 
             if (gardenId != 0)
             {
+                //Slängs iväg ett error om den inte gick att lägga till, och då är det för att den redan finns
                 try
                 {
                     using (GreenDbContext context = new())
@@ -165,7 +165,7 @@ namespace GreenThumb.Windows
 
             }
 
-            UpdateMyPlants();
+            UpdateMyPlantsList();
         }
 
         private async void btnRemoveFromGarden_Click(object sender, RoutedEventArgs e)
@@ -175,6 +175,7 @@ namespace GreenThumb.Windows
             ListViewItem selectedItem = (ListViewItem)lstMyPlants.SelectedItem;
             GardenPlantModel selectedGardenPlantModel = (GardenPlantModel)selectedItem.Tag;
 
+            //Try catch bara för att säkra upp det.
             try
             {
                 using (GreenDbContext context = new())
@@ -190,7 +191,7 @@ namespace GreenThumb.Windows
                 MessageBox.Show("Something went wrong");
             }
 
-            UpdateMyPlants();
+            UpdateMyPlantsList();
 
         }
 
@@ -205,26 +206,31 @@ namespace GreenThumb.Windows
 
         private void btnInfo_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Double click a plant in the list to show details. \nWrite in the searchbar above all plants to search for a plant");
+            MessageBox.Show("Double click a plant in the list to show details. \nWrite in the searchbar above all plants to search for a plant \nDate planted will be set to when you add the plant to your garden");
         }
 
         private async void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
+            //Metoden filtrerar AllPlants efter vad som står i sökrutan hela tiden. Vet inte hur långsam metodn är om det är väldigt många plantor då den tömmer och fyller på listan vid varje knapptryck
+
             lstAllPlants.Items.Clear();
             string input = txtSearch.Text;
 
+            //Om sökrutan är tom - visa alla plantor
             if (input == "")
             {
-                UpdateAllPlants();
+                UpdateAllPlantsList();
             }
             else
             {
+                // Få fram alla plantor som börjar på det som står i sökrutan.
 
-                var result = from plant in _allPlants
-                             where plant.CommonName.StartsWith(input, StringComparison.OrdinalIgnoreCase)
-                             select plant;
+                var filteredPlants = from plant in _allPlants
+                                     where plant.CommonName.StartsWith(input, StringComparison.OrdinalIgnoreCase)
+                                     select plant;
 
-                foreach (var plant in result)
+                // Printa dom i listan
+                foreach (var plant in filteredPlants)
                 {
                     ListViewItem item = new();
                     item.Tag = plant;

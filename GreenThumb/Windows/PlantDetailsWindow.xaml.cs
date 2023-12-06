@@ -1,5 +1,4 @@
 ﻿using GreenThumb.Database;
-using GreenThumb.Managers;
 using GreenThumb.Models;
 using System.Windows;
 using System.Windows.Controls;
@@ -98,7 +97,6 @@ namespace GreenThumb.Windows
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
-            PlantManager.SelectedPlant = null;
 
             //Kollar vilket fönster vi kom ifrån, sattes i konstruktorn.
             if (_comingFrom == "MyGarden")

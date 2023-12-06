@@ -33,14 +33,15 @@ namespace GreenThumb.Windows
                     MessageBox.Show("Username is already taken. Try another", "Error");
                     return;
                 }
-
+                //Skapar nya usern
                 UserModel newUser = new() { Username = username, Password = password };
-
+                //Lägg till
                 await uow.UserRepository.AddAsync(newUser);
                 await uow.CompleteAsync();
 
                 MessageBox.Show($"Welcome {username}! \nYou can now log in", "Success");
 
+                //Gå tillbaka till sign in
                 SignInWindow signInWindow = new();
                 signInWindow.Show();
                 Close();
