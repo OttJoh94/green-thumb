@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GreenThumb.Migrations
 {
     [DbContext(typeof(GreenDbContext))]
-    [Migration("20231206092957_Initial")]
+    [Migration("20231208113123_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,14 +56,7 @@ namespace GreenThumb.Migrations
                             GardenId = 1,
                             Environment = "Greenhouse",
                             Location = "Sweden",
-                            SquareMeters = 120
-                        },
-                        new
-                        {
-                            GardenId = 2,
-                            Environment = "Field",
-                            Location = "England",
-                            SquareMeters = 6400
+                            SquareMeters = 3000
                         });
                 });
 
@@ -335,7 +328,7 @@ namespace GreenThumb.Migrations
                         {
                             UserId = 1,
                             GardenId = 1,
-                            Password = "oNyRrCRpIWtrkO/2lPWtiA==",
+                            Password = "BETzSRAPc3/w6srQ6jx5bw==",
                             Username = "user"
                         });
                 });

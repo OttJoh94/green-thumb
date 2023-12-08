@@ -7,14 +7,17 @@ namespace GreenThumb.Managers
     {
         public static string GetEncryptionKey()
         {
-            if (File.Exists("C:\\Users\\ottol\\Desktop\\GreenThumbKey.txt"))
+
+            //string location = Path.Combine(Directory.GetCurrentDirectory(), "key.txt");
+
+            if (File.Exists("C:\\Users\\ottol\\Desktop\\GreenTumbKey.txt"))
             {
-                return File.ReadAllText("C:\\Users\\ottol\\Desktop\\GreenThumbKey.txt");
+                return File.ReadAllText("C:\\Users\\ottol\\Desktop\\GreenTumbKey.txt");
             }
             else
             {
                 string key = GenerateEncryptionKey();
-                File.WriteAllText("C:\\Users\\ottol\\Desktop\\GreenThumbKey.txt", key);
+                File.WriteAllText("C:\\Users\\ottol\\Desktop\\GreenTumbKey.txt", key);
 
                 return key;
             }

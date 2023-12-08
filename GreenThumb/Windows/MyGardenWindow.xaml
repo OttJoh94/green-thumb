@@ -32,7 +32,7 @@
             <RowDefinition Height="10"/>
         </Grid.RowDefinitions>
 
-        <Label Name="lblWelcome" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Content="User Garden" FontSize="35" FontWeight="Bold"/>
+        <Label Name="lblWelcome" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1" Content="User Garden" FontSize="35" FontWeight="Bold"/>
         <Label Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="1" Content="My plants" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
         
         <Label Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Content="Specifics" VerticalAlignment="Center" FontSize="25" FontWeight="Bold"/>

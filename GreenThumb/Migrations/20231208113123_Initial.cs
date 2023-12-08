@@ -106,11 +106,7 @@ namespace GreenThumb.Migrations
             migrationBuilder.InsertData(
                 table: "Gardens",
                 columns: new[] { "id", "environment", "location", "square_meters" },
-                values: new object[,]
-                {
-                    { 1, "Greenhouse", "Sweden", 120 },
-                    { 2, "Field", "England", 6400 }
-                });
+                values: new object[] { 1, "Greenhouse", "Sweden", 3000 });
 
             migrationBuilder.InsertData(
                 table: "Plants",
@@ -162,7 +158,7 @@ namespace GreenThumb.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "id", "garden_id", "password", "username" },
-                values: new object[] { 1, 1, "oNyRrCRpIWtrkO/2lPWtiA==", "user" });
+                values: new object[] { 1, 1, "BETzSRAPc3/w6srQ6jx5bw==", "user" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_GardenPlants_garden_id",

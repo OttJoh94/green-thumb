@@ -24,7 +24,7 @@ namespace GreenThumb.Windows
         {
             InitializeComponent();
             SetWelcomeLabel();
-            MessageBox.Show("Welcome to your garden! Since it's the first time you logged in you have to save your secifics to your garden.", "Welcome");
+            MessageBox.Show("Welcome to your garden! Since it's the first time you logged in you have to save your specifics to your garden.", "Welcome");
             btnBrowsePlants.IsEnabled = false;
             btnRemovePlant.IsEnabled = false;
         }
